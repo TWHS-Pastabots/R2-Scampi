@@ -9,6 +9,11 @@ import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.CANDriveSubsystem;
+import frc.robot.subsystems.CANRollerSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -21,8 +26,14 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private CANRollerSubsystem roller;
+  private CANDriveSubsystem drive;
+  private DriveCommand driveCommand;
 
-  private RobotContainer m_robotContainer;
+  private static  XboxController driver;
+  private static XboxController operator;
+
+  
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -31,10 +42,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    roller  = CANRollerSubsystem.getInstance();
+    drive = CANDriveSubsystem.getInstance();
+    driver = new XboxController(0);
+    operator = new XboxController(1);
+    
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
 
     // Used to track usage of the KitBot code, please do not remove
     HAL.report(tResourceType.kResourceType_Framework, 9);
@@ -77,8 +92,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -99,12 +112,24 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-  }
+   drive.driveArcade(-driver.getLeftY(), -driver.getRightX());
+   
+   if(operator.getLeftTriggerAxis()> 0.5){
+    roller.takeIn();
+   }else if(operator.getRightTriggerAxis()>0.5){
+    roller.reverseOut();
+   }else{
+    roller.turnOff();
+   }
+}
+
+  
 
   @Override
   public void testInit() {

@@ -37,7 +37,7 @@ public class RollerCommand extends Command {
 
   // Runs each time the command ends via isFinished or being interrupted.
   @Override
-  public void end(boolean isInterrupted) {
+  public void end(boolean isInterrupted) { 
   }
 
   // Runs every cycle while the command is scheduled to check if the command is

@@ -20,27 +20,30 @@ public class CANDriveSubsystem extends SubsystemBase {
   private final SparkMax leftFollower;
   private final SparkMax rightLeader;
   private final SparkMax rightFollower;
+  private static CANDriveSubsystem instance;
 
   private final DifferentialDrive drive;
 
   public CANDriveSubsystem() {
     // create brushed motors for drive
-    leftLeader = new SparkMax(DriveConstants.LEFT_LEADER_ID, MotorType.kBrushed);
-    leftFollower = new SparkMax(DriveConstants.LEFT_FOLLOWER_ID, MotorType.kBrushed);
-    rightLeader = new SparkMax(DriveConstants.RIGHT_LEADER_ID, MotorType.kBrushed);
-    rightFollower = new SparkMax(DriveConstants.RIGHT_FOLLOWER_ID, MotorType.kBrushed);
-
+    leftLeader = new SparkMax(DriveConstants.LEFT_LEADER_ID, MotorType.kBrushless);
+    leftFollower = new SparkMax(DriveConstants.LEFT_FOLLOWER_ID, MotorType.kBrushless);
+    rightLeader = new SparkMax(DriveConstants.RIGHT_LEADER_ID, MotorType.kBrushless);
+    rightFollower = new SparkMax(DriveConstants.RIGHT_FOLLOWER_ID, MotorType.kBrushless);
+    
     // set up differential drive class
     drive = new DifferentialDrive(leftLeader, rightLeader);
-
+    drive.setSafetyEnabled(false);
     // Set can timeout. Because this project only sets parameters once on
     // construction, the timeout can be long without blocking robot operation. Code
     // which sets or gets parameters during operation may need a shorter timeout.
-    leftLeader.setCANTimeout(250);
-    rightLeader.setCANTimeout(250);
-    leftFollower.setCANTimeout(250);
-    rightFollower.setCANTimeout(250);
 
+    // leftLeader.setCANTimeout(250);
+    // rightLeader.setCANTimeout(250);
+    // leftFollower.setCANTimeout(250);
+    // rightFollower.setCANTimeout(250);
+
+    
     // Create the configuration to apply to motors. Voltage compensation
     // helps the robot perform more similarly on different
     // battery voltages (at the cost of a little bit of top speed on a fully charged
@@ -54,6 +57,7 @@ public class CANDriveSubsystem extends SubsystemBase {
     // follower. Resetting in case a new controller is swapped
     // in and persisting in case of a controller reset due to breaker trip
     config.follow(leftLeader);
+    
     leftFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     config.follow(rightLeader);
     rightFollower.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -65,6 +69,8 @@ public class CANDriveSubsystem extends SubsystemBase {
     // so that postive values drive both sides forward
     config.inverted(true);
     leftLeader.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+      
   }
 
   @Override
@@ -74,5 +80,16 @@ public class CANDriveSubsystem extends SubsystemBase {
   // sets the speed of the drive motors
   public void driveArcade(double xSpeed, double zRotation) {
     drive.arcadeDrive(xSpeed, zRotation);
+  }
+  public static CANDriveSubsystem getInstance(){
+    if (instance == null){
+      instance = new CANDriveSubsystem();
+    }
+    return instance;
+  }
+
+  public void runRoller(double d, double e) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'runRoller'");
   }
 }
