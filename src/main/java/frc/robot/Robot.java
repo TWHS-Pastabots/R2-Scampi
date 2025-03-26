@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.CANDriveSubsystem;
+import frc.robot.subsystems.CANPivotSubsystem;
 import frc.robot.subsystems.CANRollerSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 
@@ -26,6 +27,7 @@ import edu.wpi.first.wpilibj.XboxController;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private CANPivotSubsystem pivot;
   private CANRollerSubsystem roller;
   private CANDriveSubsystem drive;
   private DriveCommand driveCommand;
@@ -44,6 +46,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     roller  = CANRollerSubsystem.getInstance();
     drive = CANDriveSubsystem.getInstance();
+    pivot = CANPivotSubsystem.getInstance();
     driver = new XboxController(0);
     operator = new XboxController(1);
     
@@ -127,7 +130,16 @@ public class Robot extends TimedRobot {
    }else{
     roller.turnOff();
    }
-}
+
+   if(operator.getYButton()){
+    pivot.moveDown();
+   }else if(operator.getAButton()){
+    pivot.moveUp();
+   }else{
+    pivot.turnOff();
+   }
+   }
+
 
   
 

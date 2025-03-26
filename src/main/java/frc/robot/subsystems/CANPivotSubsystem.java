@@ -39,14 +39,14 @@ public class CANPivotSubsystem extends SubsystemBase {
   }
 
   /** This is a method that makes the roller spin */
-  public void runPivot(double forward, double reverse) {
-    pivotMotor.set(forward - reverse);
-  }
+  // public void runPivot(double forward, double reverse) {
+  //   pivotMotor.set(forward - reverse);
+  // }
   public void moveDown(){
-    pivotMotor.set(1.0);
+    pivotMotor.set(0.25);
   }
   public void moveUp(){
-    pivotMotor.set(-1.0);
+    pivotMotor.set(-0.25);
   }
   public void turnOff(){
     pivotMotor.set(0.0);
