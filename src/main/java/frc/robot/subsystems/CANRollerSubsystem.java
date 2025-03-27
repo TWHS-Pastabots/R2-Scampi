@@ -46,10 +46,10 @@ public class CANRollerSubsystem extends SubsystemBase {
     rollerMotor.set(forward - reverse);
   }
   public void takeIn(){
-    rollerMotor.set(-1.0);
+    rollerMotor.set(-0.5);
   }
   public void reverseOut(){
-    rollerMotor.set(1.0);
+    rollerMotor.set(0.5);
   }
   public void turnOff(){
     rollerMotor.set(0.0);
