@@ -35,6 +35,8 @@ public class Robot extends TimedRobot {
   private static  XboxController driver;
   private static XboxController operator;
 
+  private boolean wasXPresed;
+
   
 
   /**
@@ -49,6 +51,8 @@ public class Robot extends TimedRobot {
     pivot = CANPivotSubsystem.getInstance();
     driver = new XboxController(0);
     operator = new XboxController(1);
+
+    boolean wasXPressed = false;
     
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
@@ -120,13 +124,18 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
    drive.driveArcade(-driver.getLeftY(), -driver.getRightX());
    
+   
    if(operator.getLeftTriggerAxis()> 0.5){
     roller.takeIn();
    }else if(operator.getRightTriggerAxis()>0.5){
     roller.reverseOut();
    }else{
-    roller.turnOff();
+   roller.turnOff();
    }
+
+   while(wasXPresed){
+    roller.algae();
+    }
 
    if(operator.getYButton()){
     pivot.moveDown();
