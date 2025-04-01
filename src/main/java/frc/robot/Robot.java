@@ -124,6 +124,11 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
    drive.driveArcade(-driver.getLeftY(), -driver.getRightX());
    
+if(operator.getBButton()){
+  roller.algae();
+}
+else
+roller.turnOff();
    
    if(operator.getLeftTriggerAxis()> 0.5){
     roller.takeIn();
@@ -133,10 +138,7 @@ public class Robot extends TimedRobot {
    roller.turnOff();
    }
 
-   while(wasXPresed){
-    roller.algae();
-    }
-
+ 
    if(operator.getYButton()){
     pivot.moveDown();
    }else if(operator.getAButton()){
