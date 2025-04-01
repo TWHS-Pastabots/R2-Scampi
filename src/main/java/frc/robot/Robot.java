@@ -35,8 +35,6 @@ public class Robot extends TimedRobot {
   private static  XboxController driver;
   private static XboxController operator;
 
-  private boolean wasXPresed;
-
   
 
   /**
@@ -52,7 +50,6 @@ public class Robot extends TimedRobot {
     driver = new XboxController(0);
     operator = new XboxController(1);
 
-    boolean wasXPressed = false;
     
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
@@ -130,21 +127,28 @@ public class Robot extends TimedRobot {
    }else if(operator.getRightTriggerAxis()>0.5){
     roller.reverseOut();
    }else{
-   roller.turnOff();
-   }
-
-   while(wasXPresed){
-    roller.algae();
+    roller.turnOff();
     }
 
    if(operator.getYButton()){
-    pivot.moveDown();
+    pivot.moveDown(1);
    }else if(operator.getAButton()){
-    pivot.moveUp();
+    pivot.moveUp(1);
    }else{
-    pivot.turnOff();
+    pivot.turnOff(0);
    }
+
+   /*if(operator.getXButton()){
+    while(!operator.getBButton()){
+      roller.takeIn();
+    }
+    roller.reverseOut();
+   }else{
+    roller.turnOff();
+   }*/
    }
+
+
 
 
   
