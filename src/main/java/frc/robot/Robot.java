@@ -14,7 +14,9 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANPivotSubsystem;
 import frc.robot.subsystems.CANRollerSubsystem;
+import frc.robot.subsystems.CANPivotSubsystem.pivotStates;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -74,7 +76,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    pivot.updatepose();
+    SmartDashboard.putNumber("encoder pMotor val", pivot.pivotMotor.getEncoder().getPosition());
+
+  
 
 
 
@@ -122,6 +126,15 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    
+    pivot.updatepose();
+    
+    
+    if(operator.getLeftBumperButton())
+      pivot.pivotSetState(pivotStates.Algae);
+    
+
+
    drive.driveArcade(-driver.getLeftY(), -driver.getRightX());
    
 if(operator.getBButton()){
@@ -140,12 +153,13 @@ roller.turnOff();
 
  
    if(operator.getYButton()){
-    pivot.moveDown();
+    pivot.pivotSetState(pivotStates.Coral);
    }else if(operator.getAButton()){
-    pivot.moveUp();
-   }else{
-    pivot.turnOff();
+    pivot.pivotSetState(pivotStates.Algae);
+   }else if(operator.getPOV() == 0){
+    pivot.pivotSetState(pivotStates.Base);
    }
+
    }
 
 
