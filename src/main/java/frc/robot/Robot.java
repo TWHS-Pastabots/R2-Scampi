@@ -15,7 +15,9 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANPivotSubsystem;
 import frc.robot.subsystems.CANRollerSubsystem;
+import frc.robot.subsystems.CANPivotSubsystem.pivotStates;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,6 +38,8 @@ public class Robot extends TimedRobot {
   private static  XboxController driver;
   private static XboxController operator;
 
+  private boolean wasXPresed;
+
   
 
   /**
@@ -51,6 +55,7 @@ public class Robot extends TimedRobot {
     driver = new XboxController(0);
     operator = new XboxController(1);
 
+    boolean wasXPressed = false;
     
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
@@ -72,7 +77,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+<<<<<<< HEAD
     // pivot.updatepose();
+=======
+    SmartDashboard.putNumber("encoder pMotor val", pivot.pivotMotor.getEncoder().getPosition());
+
+  
+>>>>>>> 4e32a6375a786896d8986ce5d9e03067d57fcae7
 
 
 
@@ -131,27 +142,54 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+<<<<<<< HEAD
    drive.driveArcade(driver.getLeftY(), driver.getRightX());
+=======
+    
+    pivot.updatepose();
+    
+    
+    if(operator.getLeftBumperButton())
+      pivot.pivotSetState(pivotStates.Algae);
+    
+
+
+   drive.driveArcade(-driver.getLeftY(), -driver.getRightX());
+>>>>>>> 4e32a6375a786896d8986ce5d9e03067d57fcae7
    
+if(operator.getBButton()){
+  roller.algae();
+}
+else
+roller.turnOff();
    
    if(operator.getLeftTriggerAxis()> 0.5){
     roller.takeIn();
    }else if(operator.getRightTriggerAxis()>0.5){
     roller.reverseOut();
    }else{
-    roller.turnOff();
-    }
+   roller.turnOff();
+   }
 
+ 
    if(operator.getYButton()){
+<<<<<<< HEAD
     pivot.moveDown(0.2);
    }else if(operator.getAButton()){
     pivot.moveUp(0.2);
    }else{
     pivot.turnOff(0);
    }
+=======
+    pivot.pivotSetState(pivotStates.Coral);
+   }else if(operator.getAButton()){
+    pivot.pivotSetState(pivotStates.Algae);
+   }else if(operator.getPOV() == 0){
+    pivot.pivotSetState(pivotStates.Base);
    }
 
-
+>>>>>>> 4e32a6375a786896d8986ce5d9e03067d57fcae7
+   }
 
 
   

@@ -4,11 +4,8 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.RollerConstants;
-import frc.robot.Constants.PivotConstants;
-
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
@@ -49,10 +46,10 @@ public class CANRollerSubsystem extends SubsystemBase {
     rollerMotor.set(forward - reverse);
   }
   public void takeIn(){
-    rollerMotor.set(-.25);
+    rollerMotor.set(-0.2);
   }
   public void reverseOut(){
-    rollerMotor.set(.25);
+    rollerMotor.set(0.2);
   }
   public void turnOff(){
     rollerMotor.set(0.0);
