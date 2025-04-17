@@ -38,10 +38,10 @@ public class CANDriveSubsystem extends SubsystemBase {
     // construction, the timeout can be long without blocking robot operation. Code
     // which sets or gets parameters during operation may need a shorter timeout.
 
-    // leftLeader.setCANTimeout(250);
-    // rightLeader.setCANTimeout(250);
-    // leftFollower.setCANTimeout(250);
-    // rightFollower.setCANTimeout(250);
+    leftLeader.setCANTimeout(250);
+    rightLeader.setCANTimeout(250);
+    leftFollower.setCANTimeout(250);
+    rightFollower.setCANTimeout(250);
 
     
     // Create the configuration to apply to motors. Voltage compensation

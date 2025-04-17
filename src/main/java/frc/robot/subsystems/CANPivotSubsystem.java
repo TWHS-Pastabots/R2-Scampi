@@ -85,7 +85,7 @@ public class CANPivotSubsystem extends SubsystemBase {
     pivotMotor.set(speed);
   }
   public void moveUp(double speed){
-    pivotMotor.set(speed);
+    pivotMotor.set(-speed);
   }
   public void turnOff(double speed){
     pivotMotor.set(speed);

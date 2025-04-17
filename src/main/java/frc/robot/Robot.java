@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -71,7 +72,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    pivot.updatepose();
+    // pivot.updatepose();
 
 
 
@@ -102,6 +103,17 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    double time = Timer.getFPGATimestamp();
+    if(time < 100){
+      drive.driveArcade(-.3, 0);
+    }
+    else {
+      drive.driveArcade(0,0);
+    }
+
+  if(time > 20){
+    roller.takeIn();
+  }
   }
 
   @Override
@@ -119,7 +131,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-   drive.driveArcade(-driver.getLeftY(), -driver.getRightX());
+   drive.driveArcade(driver.getLeftY(), driver.getRightX());
    
    
    if(operator.getLeftTriggerAxis()> 0.5){
@@ -131,21 +143,12 @@ public class Robot extends TimedRobot {
     }
 
    if(operator.getYButton()){
-    pivot.moveDown(1);
+    pivot.moveDown(0.2);
    }else if(operator.getAButton()){
-    pivot.moveUp(1);
+    pivot.moveUp(0.2);
    }else{
     pivot.turnOff(0);
    }
-
-   /*if(operator.getXButton()){
-    while(!operator.getBButton()){
-      roller.takeIn();
-    }
-    roller.reverseOut();
-   }else{
-    roller.turnOff();
-   }*/
    }
 
 
