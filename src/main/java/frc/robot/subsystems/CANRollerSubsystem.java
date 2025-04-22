@@ -51,8 +51,8 @@ public class CANRollerSubsystem extends SubsystemBase {
   public void reverseOut(){
     rollerMotor.set(0.2);
   }
-  public void turnOff(){
-    rollerMotor.set(0.0);
+  public void turnOff(double speed){
+    rollerMotor.set(speed);
   }
   public void algae(){
     rollerMotor.set(0.09);

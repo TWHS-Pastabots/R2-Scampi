@@ -56,4 +56,5 @@ public class AutoCommand extends Command {
     // this command is finished
     return timer.get() >= seconds;
   }
+
 }

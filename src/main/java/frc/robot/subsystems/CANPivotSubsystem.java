@@ -23,9 +23,9 @@ public class CANPivotSubsystem extends SubsystemBase {
   public SparkClosedLoopController PID;
   public ArmFeedforward feedforward;
   public enum pivotStates{
-    Algae(-1.7619),
-    Base(6.5476),
-    Coral(-5.2142);
+    Algae(5.23),
+    Base(-.54),
+    Coral(1.16);
 
     
 
@@ -46,17 +46,21 @@ public class CANPivotSubsystem extends SubsystemBase {
   
     SparkMaxConfig pivotConfig = new SparkMaxConfig();
     pivotConfig.closedLoop
-       .feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(0, 0, 0).outputRange(-1, 1);
+       .feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(.07, 0, 0)
+       .outputRange(-1, 1);
+    //pivotConfig.closedLoopRampRate(.6);
     pivotConfig.idleMode(IdleMode.kBrake);
     pivotConfig.voltageCompensation(PivotConstants.PIVOT_MOTOR_VOLTAGE_COMP);
     pivotConfig.smartCurrentLimit(PivotConstants.PIVOT_MOTOR_CURRENT_LIMIT);
     pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     PID = pivotMotor.getClosedLoopController();
-    feedforward = new ArmFeedforward(0, 0.9, 0);
+    feedforward = new ArmFeedforward(0, .5, 0);
   }
+
+
    public void updatepose(){
     PID.setReference(pivotstates.pose, ControlType.kPosition, ClosedLoopSlot.kSlot0,
-     feedforward.calculate(pivotMotor.getEncoder().getPosition(), 0));
+   -(feedforward.calculate(-.261799*pivotMotor.getEncoder().getPosition()+1.41372, 0)));
    }
 
    public void pivotSetState(pivotStates tape){
@@ -80,16 +84,11 @@ public class CANPivotSubsystem extends SubsystemBase {
   // public void runPivot(double forward, double reverse) {
   //   pivotMotor.set(forward - reverse);
   // }
-  public void moveDown(){
-    pivotMotor.set(-0.25);
+  public void moveDown(double speed){
+    pivotMotor.set(speed);
   }
-<<<<<<< HEAD
   public void moveUp(double speed){
     pivotMotor.set(-speed);
-=======
-  public void moveUp(){
-    pivotMotor.set(0.25);
->>>>>>> 4e32a6375a786896d8986ce5d9e03067d57fcae7
   }
   public void turnOff(){
     pivotMotor.set(0.0);

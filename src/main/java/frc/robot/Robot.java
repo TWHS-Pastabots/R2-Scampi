@@ -37,9 +37,10 @@ public class Robot extends TimedRobot {
 
   private static  XboxController driver;
   private static XboxController operator;
-
+  public double time;
+  public double timer;
   private boolean wasXPresed;
-
+  public double speed;
   
 
   /**
@@ -49,6 +50,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    speed =0;
     roller  = CANRollerSubsystem.getInstance();
     drive = CANDriveSubsystem.getInstance();
     pivot = CANPivotSubsystem.getInstance();
@@ -77,13 +79,11 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-<<<<<<< HEAD
     // pivot.updatepose();
-=======
-    SmartDashboard.putNumber("encoder pMotor val", pivot.pivotMotor.getEncoder().getPosition());
 
+    SmartDashboard.putNumber("encoder pMotor val", pivot.pivotMotor.getEncoder().getPosition());
+    SmartDashboard.putNumber("feedforward", pivot.feedforward.calculate(-.261799*pivot.pivotMotor.getEncoder().getPosition()+1.41372, 0));
   
->>>>>>> 4e32a6375a786896d8986ce5d9e03067d57fcae7
 
 
 
@@ -106,6 +106,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     // schedule the autonomous command (example)
+    time = 0;
+    timer =Timer.getFPGATimestamp();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -114,17 +116,21 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    double time = Timer.getFPGATimestamp();
-    if(time < 100){
+    roller.turnOff(0);
+   pivot.updatepose();
+   time = Timer.getFPGATimestamp();
+    SmartDashboard.putNumber("NUMBER", time);
+    if(Timer.getFPGATimestamp() < timer +3){
+      roller.turnOff(0);
+      pivot.pivotSetState(pivotStates.Coral);
       drive.driveArcade(-.3, 0);
     }
     else {
       drive.driveArcade(0,0);
+      roller.takeIn();
     }
-
-  if(time > 20){
-    roller.takeIn();
-  }
+    
+  
   }
 
   @Override
@@ -142,9 +148,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-<<<<<<< HEAD
    drive.driveArcade(driver.getLeftY(), driver.getRightX());
-=======
     
     pivot.updatepose();
     
@@ -155,40 +159,32 @@ public class Robot extends TimedRobot {
 
 
    drive.driveArcade(-driver.getLeftY(), -driver.getRightX());
->>>>>>> 4e32a6375a786896d8986ce5d9e03067d57fcae7
-   
-if(operator.getBButton()){
-  roller.algae();
-}
-else
-roller.turnOff();
    
    if(operator.getLeftTriggerAxis()> 0.5){
     roller.takeIn();
    }else if(operator.getRightTriggerAxis()>0.5){
     roller.reverseOut();
    }else{
-   roller.turnOff();
+    roller.turnOff(speed);
    }
-
  
+  //  if(operator.getYButton()){
+  //   pivot.moveDown(0.2);
+  //  }else if(operator.getAButton()){
+  //   pivot.moveUp(0.2);
+   
+
    if(operator.getYButton()){
-<<<<<<< HEAD
-    pivot.moveDown(0.2);
-   }else if(operator.getAButton()){
-    pivot.moveUp(0.2);
-   }else{
-    pivot.turnOff(0);
-   }
-=======
     pivot.pivotSetState(pivotStates.Coral);
-   }else if(operator.getAButton()){
+    speed =0;
+   }else if(operator.getBButton()){
     pivot.pivotSetState(pivotStates.Algae);
-   }else if(operator.getPOV() == 0){
+    speed = .09;
+   }else if(operator.getXButton()){
     pivot.pivotSetState(pivotStates.Base);
+    speed = 0;
    }
 
->>>>>>> 4e32a6375a786896d8986ce5d9e03067d57fcae7
    }
 
 
@@ -215,3 +211,4 @@ roller.turnOff();
   public void simulationPeriodic() {
   }
 }
+
