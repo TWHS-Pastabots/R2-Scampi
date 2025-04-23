@@ -25,7 +25,7 @@ public class CANPivotSubsystem extends SubsystemBase {
   public enum pivotStates{
     Algae(5.23),
     Base(-.54),
-    Coral(1.16);
+    Coral(.6);
 
     
 

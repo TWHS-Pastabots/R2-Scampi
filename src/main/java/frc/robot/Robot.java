@@ -39,6 +39,8 @@ public class Robot extends TimedRobot {
   private static XboxController operator;
   public double time;
   public double timer;
+  public double timeC;
+  public double timerC;
   private boolean wasXPresed;
   public double speed;
   
@@ -123,7 +125,7 @@ public class Robot extends TimedRobot {
     if(Timer.getFPGATimestamp() < timer +3){
       roller.turnOff(0);
       pivot.pivotSetState(pivotStates.Coral);
-      drive.driveArcade(-.3, 0);
+      drive.driveArcade(-.3, 1);
     }
     else {
       drive.driveArcade(0,0);
@@ -139,6 +141,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -176,16 +179,19 @@ public class Robot extends TimedRobot {
 
    if(operator.getYButton()){
     pivot.pivotSetState(pivotStates.Coral);
-    speed =0;
-   }else if(operator.getBButton()){
+    speed =-.25;
+   }
+   
+   else if(operator.getBButton()){
     pivot.pivotSetState(pivotStates.Algae);
     speed = .09;
-   }else if(operator.getXButton()){
+   }
+   
+   else if(operator.getXButton()){
     pivot.pivotSetState(pivotStates.Base);
     speed = 0;
    }
-
-   }
+  }
 
 
   
@@ -210,5 +216,5 @@ public class Robot extends TimedRobot {
   @Override
   public void simulationPeriodic() {
   }
-}
 
+}
