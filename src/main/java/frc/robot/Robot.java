@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
   public double timerC;
   private boolean wasXPresed;
   public double speed;
-  
+  private double driveMode;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -122,15 +122,23 @@ public class Robot extends TimedRobot {
    pivot.updatepose();
    time = Timer.getFPGATimestamp();
     SmartDashboard.putNumber("NUMBER", time);
-    if(Timer.getFPGATimestamp() < timer +3){
+    if(Timer.getFPGATimestamp() < timer + 2){
       roller.turnOff(0);
       pivot.pivotSetState(pivotStates.Coral);
-      drive.driveArcade(-.3, 1);
-    }
-    else {
+      drive.driveArcade(-.5,0);
+     }
+    // else if(Timer.getFPGATimestamp()< timer + 3){
+    //   drive.driveArcade(0,0);
+    //   roller.takeIn();
+    // }
+    // else if (Timer.getFPGATimestamp()< timer + 5){
+    //   roller.turnOff(0);
+    //   drive.driveArcade(.2, -.1);
+    // }
+    else{
       drive.driveArcade(0,0);
-      roller.takeIn();
     }
+
     
   
   }
@@ -141,7 +149,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-
+    driveMode = 1;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -151,17 +159,20 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    if(driver.getLeftBumperButton()&&driveMode==1){
+      driveMode= .4;
+    }
+    else if(driver.getLeftBumperButton()&&driveMode==.4){
+      driveMode= 1;
+    }
+
+
+
    drive.driveArcade(driver.getLeftY(), driver.getRightX());
     
     pivot.updatepose();
-    
-    
-    if(operator.getLeftBumperButton())
-      pivot.pivotSetState(pivotStates.Algae);
-    
 
-
-   drive.driveArcade(-driver.getLeftY(), -driver.getRightX());
+   drive.driveArcade(-driver.getLeftY() * driveMode, -driver.getRightX()*driveMode);
    
    if(operator.getLeftTriggerAxis()> 0.5){
     roller.takeIn();
