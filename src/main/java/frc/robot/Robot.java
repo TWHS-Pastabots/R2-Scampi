@@ -113,30 +113,44 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
+
   public void autonomousPeriodic() {
+    double x = 0;
+    double z = 0;
     roller.turnOff(0);
    pivot.updatepose();
    time = Timer.getFPGATimestamp();
     SmartDashboard.putNumber("NUMBER", time);
-    if(Timer.getFPGATimestamp() < timer + 2.3){
+    if(Timer.getFPGATimestamp() < timer + 2.7){
+      x = -.5;
+      z = -.2;
       roller.turnOff(0);
       pivot.pivotSetState(pivotStates.Coral);
-      drive.driveArcade(-.5,0);
      }
     else if(Timer.getFPGATimestamp()< timer + 3){
-      drive.driveArcade(0,0);
+      x = 0;
+      z = 0;
       roller.takeIn();
-     }
-    // else if (Timer.getFPGATimestamp()< timer + 5){
-    //   roller.turnOff(0);
-    //   drive.driveArcade(.2, -.1);
+    }
+    else if (Timer.getFPGATimestamp()< timer + 3.5){
+      x = .5;
+      z = 0;
+      roller.turnOff(0);
+      pivot.pivotSetState(pivotStates.Base);
+    }
+    else if(Timer.getFPGATimestamp()< timer + 3.8){
+      x = 0;
+      z = .2;
+    }
+    // else if(Timer.getFPGATimestamp()< timer + 5.5){
+    //   x = .5;
+    //   z = 0;
     // }
     else{
-      drive.driveArcade(0,0);
+      x  =0;
+      z = 0;
     }
-
-    
-  
+    drive.driveArcade(x,z);
   }
 
   @Override
@@ -168,10 +182,10 @@ public class Robot extends TimedRobot {
     else if(driver.getLeftBumperButtonReleased()){
       driveMode = .6;
     }
-    
-    pivot.updatepose();
+    drive.driveArcade(driver.getLeftY() * driveMode, driver.getRightX()*driveMode);
 
-   drive.driveArcade(driver.getLeftY() * driveMode, driver.getRightX()*driveMode);
+    pivot.updatepose();
+   
    
    if(operator.getLeftTriggerAxis()> 0.5){
     roller.takeIn();
