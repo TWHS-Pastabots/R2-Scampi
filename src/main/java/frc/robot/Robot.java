@@ -39,11 +39,8 @@ public class Robot extends TimedRobot {
   private static XboxController operator;
   public double time;
   public double timer;
-  public double timeC;
-  public double timerC;
-  private boolean wasXPresed;
   public double speed;
-  private double driveMode;
+  public double driveMode;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -59,7 +56,6 @@ public class Robot extends TimedRobot {
     driver = new XboxController(0);
     operator = new XboxController(1);
 
-    boolean wasXPressed = false;
     
     // Instantiate our RobotContainer. This will perform all our button bindings,
     // and put our
@@ -122,15 +118,15 @@ public class Robot extends TimedRobot {
    pivot.updatepose();
    time = Timer.getFPGATimestamp();
     SmartDashboard.putNumber("NUMBER", time);
-    if(Timer.getFPGATimestamp() < timer + 2){
+    if(Timer.getFPGATimestamp() < timer + 2.3){
       roller.turnOff(0);
       pivot.pivotSetState(pivotStates.Coral);
       drive.driveArcade(-.5,0);
      }
-    // else if(Timer.getFPGATimestamp()< timer + 3){
-    //   drive.driveArcade(0,0);
-    //   roller.takeIn();
-    // }
+    else if(Timer.getFPGATimestamp()< timer + 3){
+      drive.driveArcade(0,0);
+      roller.takeIn();
+     }
     // else if (Timer.getFPGATimestamp()< timer + 5){
     //   roller.turnOff(0);
     //   drive.driveArcade(.2, -.1);
@@ -149,7 +145,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    driveMode = 1;
+    driveMode = .6;
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -159,20 +155,23 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    if(driver.getLeftBumperButton()&&driveMode==1){
-      driveMode= .4;
+    // if(driver.getLeftBumperButton()&&driveMode==.75){
+    //   driveMode= .4;
+    // }
+    // else if(driver.getLeftBumperButton()&&driveMode==.4){
+    //   driveMode= .75;
+    // }
+    
+    if(driver.getLeftBumperButtonPressed()){
+      driveMode = .3;
     }
-    else if(driver.getLeftBumperButton()&&driveMode==.4){
-      driveMode= 1;
+    else if(driver.getLeftBumperButtonReleased()){
+      driveMode = .6;
     }
-
-
-
-   drive.driveArcade(driver.getLeftY(), driver.getRightX());
     
     pivot.updatepose();
 
-   drive.driveArcade(-driver.getLeftY() * driveMode, -driver.getRightX()*driveMode);
+   drive.driveArcade(driver.getLeftY() * driveMode, driver.getRightX()*driveMode);
    
    if(operator.getLeftTriggerAxis()> 0.5){
     roller.takeIn();
@@ -181,11 +180,6 @@ public class Robot extends TimedRobot {
    }else{
     roller.turnOff(speed);
    }
- 
-  //  if(operator.getYButton()){
-  //   pivot.moveDown(0.2);
-  //  }else if(operator.getAButton()){
-  //   pivot.moveUp(0.2);
    
 
    if(operator.getYButton()){
