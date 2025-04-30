@@ -132,20 +132,20 @@ public class Robot extends TimedRobot {
       z = 0;
       roller.takeIn();
     }
-    else if (Timer.getFPGATimestamp()< timer + 3.5){
+    else if (Timer.getFPGATimestamp()< timer + 3.2){
       x = .5;
       z = 0;
       roller.turnOff(0);
       pivot.pivotSetState(pivotStates.Base);
     }
-    else if(Timer.getFPGATimestamp()< timer + 3.8){
+    else if(Timer.getFPGATimestamp()< timer + 3.7){
       x = 0;
-      z = .2;
+      z = -.4;
     }
-    // else if(Timer.getFPGATimestamp()< timer + 5.5){
-    //   x = .5;
-    //   z = 0;
-    // }
+    else if(Timer.getFPGATimestamp()< timer + 4){
+      x = .5;
+      z = 0;
+    }
     else{
       x  =0;
       z = 0;
