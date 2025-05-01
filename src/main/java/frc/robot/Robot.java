@@ -148,7 +148,7 @@ public class Robot extends TimedRobot {
     }
     else{
       x  =0;
-      z = 0;
+      z = 9;
     }
     drive.driveArcade(x,z);
   }
