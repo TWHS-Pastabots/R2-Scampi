@@ -121,34 +121,34 @@ public class Robot extends TimedRobot {
    pivot.updatepose();
    time = Timer.getFPGATimestamp();
     SmartDashboard.putNumber("NUMBER", time);
-    if(Timer.getFPGATimestamp() < timer + 2.5){
+    if(Timer.getFPGATimestamp() < timer + 2.7){
       x = -.5;
       z = -.2;
       roller.turnOff(0);
       pivot.pivotSetState(pivotStates.Coral);
      }
-    else if(Timer.getFPGATimestamp()< timer + 2.8){
+    else if(Timer.getFPGATimestamp()< timer + 3){
       x = 0;
       z = 0;
       roller.takeIn();
     }
-    else if (Timer.getFPGATimestamp()< timer + 3){
+    else if (Timer.getFPGATimestamp()< timer + 3.3){
       x = .5;
       z = 0;
       roller.turnOff(0);
       pivot.pivotSetState(pivotStates.Base);
     }
-    else if(Timer.getFPGATimestamp()< timer + 3.5){
+    else if(Timer.getFPGATimestamp()< timer + 3.6){
       x = 0;
-      z = -.5;
+      z = -.55;
     }
-    else if(Timer.getFPGATimestamp()< timer + 6.1){
+    else if(Timer.getFPGATimestamp()< timer + 5.7){
       x = .6;
-      z = 0.16;
+      z = 0.125;
     }
     else{
       x  =0;
-      z = 9;
+      z = 0;
     }
     drive.driveArcade(x,z);
   }
