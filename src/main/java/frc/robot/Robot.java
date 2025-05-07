@@ -121,30 +121,44 @@ public class Robot extends TimedRobot {
    pivot.updatepose();
    time = Timer.getFPGATimestamp();
     SmartDashboard.putNumber("NUMBER", time);
-    if(Timer.getFPGATimestamp() < timer + 2.7){
-      x = -.5;
-      z = -.2;
+    if(Timer.getFPGATimestamp() < timer + 2.5){
+      x = -.55;
+      z = -.23;
       roller.turnOff(0);
       pivot.pivotSetState(pivotStates.Coral);
      }
-    else if(Timer.getFPGATimestamp()< timer + 3){
+    else if(Timer.getFPGATimestamp()< timer + 3.2){
       x = 0;
       z = 0;
       roller.takeIn();
     }
-    else if (Timer.getFPGATimestamp()< timer + 3.3){
+    else if (Timer.getFPGATimestamp()< timer + 3.5){
       x = .5;
       z = 0;
       roller.turnOff(0);
       pivot.pivotSetState(pivotStates.Base);
     }
-    else if(Timer.getFPGATimestamp()< timer + 3.6){
+    else if(Timer.getFPGATimestamp()< timer + 3.8){
       x = 0;
-      z = -.55;
+      z = -.6;
     }
-    else if(Timer.getFPGATimestamp()< timer + 5.7){
-      x = .6;
-      z = 0.125;
+    else if(Timer.getFPGATimestamp()< timer + 6){
+      x = .65;
+      z = 0.17;
+    }
+    else if(Timer.getFPGATimestamp()< timer + 6.7){
+      x = 0;
+      z = 0;
+    }
+    else if(Timer.getFPGATimestamp()< timer + 9.6){
+      x = -.5;
+      z = -0.1;
+      
+    }
+    else if(Timer.getFPGATimestamp()< timer + 9.7){
+      x = 0;
+      z = 0;
+      roller.takeIn();
     }
     else{
       x  =0;
@@ -203,7 +217,7 @@ public class Robot extends TimedRobot {
    
    else if(operator.getBButton()){
     pivot.pivotSetState(pivotStates.Algae);
-    speed = .09;
+    speed = .15;
    }
    
    else if(operator.getXButton()){
