@@ -142,8 +142,8 @@ public class Robot extends TimedRobot {
       x = 0;
       z = -.6;
     }
-    else if(Timer.getFPGATimestamp()< timer + 6){
-      x = .65;
+    else if(Timer.getFPGATimestamp()< timer + 6.1){
+      x = .64;
       z = 0.17;
     }
     else if(Timer.getFPGATimestamp()< timer + 6.7){
