@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
       x = 0;
       z = -.6;
     }
-    else if(Timer.getFPGATimestamp()< timer + 6.1){
+    else if(Timer.getFPGATimestamp()< timer + 6.13){
       x = .64;
       z = 0.17;
     }
@@ -150,19 +150,26 @@ public class Robot extends TimedRobot {
       x = 0;
       z = 0;
     }
-    else if(Timer.getFPGATimestamp()< timer + 9.6){
+    else if(Timer.getFPGATimestamp()< timer + 9.67){
       x = -.5;
-      z = -0.1;
+      z = -0.14;
       
     }
-    else if(Timer.getFPGATimestamp()< timer + 9.7){
+    else if(Timer.getFPGATimestamp()< timer + 9.9){
       x = 0;
       z = 0;
       roller.takeIn();
     }
-    else{
-      x  =0;
+    else if(Timer.getFPGATimestamp()< timer + 10.4){
+      x = 0;
       z = 0;
+      roller.reverseOut();
+    }
+    else if( Timer.getFPGATimestamp()< timer + 10.4){
+      x = 0;
+      z = 0;
+      roller.turnOff(0.0);
+      pivot.pivotSetState(pivotStates.Base);
     }
     drive.driveArcade(x,z);
   }
