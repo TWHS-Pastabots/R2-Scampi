@@ -150,20 +150,20 @@ public class Robot extends TimedRobot {
       x = 0;
       z = 0;
     }
-    else if(Timer.getFPGATimestamp()< timer + 9.67){
+    else if(Timer.getFPGATimestamp()< timer + 9.9){
       x = -.5;
       z = -0.14;
       
     }
-    else if(Timer.getFPGATimestamp()< timer + 9.9){
+    else if(Timer.getFPGATimestamp()< timer + 10.2){
       x = 0;
       z = 0;
       roller.takeIn();
     }
-    else if(Timer.getFPGATimestamp()< timer + 10.4){
+    else if(Timer.getFPGATimestamp()< timer + 10.6){
       x = 0;
       z = 0;
-      roller.reverseOut();
+      roller.takeIn();
     }
     else if( Timer.getFPGATimestamp()< timer + 10.4){
       x = 0;
